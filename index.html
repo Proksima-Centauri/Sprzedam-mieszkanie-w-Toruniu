@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ogłoszenie sprzedaży domu | Toruń</title>
+    <meta
+      name="description"
+      content="Komfort domu w centrum Torunia: 62,5 m² powierzchni mieszkalnej, standard premium, 2 miejsca postojowe i wyjątkowa lokalizacja."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__overlay"></div>
+      <img
+        class="hero__image"
+        src="assets/main_photo.jpg"
+        alt="Główne zdjęcie nieruchomości"
+      />
+      <div class="hero__content reveal">
+        <p class="eyebrow">Ogłoszenie sprzedaży nieruchomości</p>
+        <h1>Komfort domu w centrum Torunia</h1>
+        <p class="lead">
+          Kameralna nieruchomość łącząca prywatność segmentu z wygodą codziennego życia
+          w mieście. Bez korków, bez długich dojazdów, z pełną infrastrukturą na miejscu.
+        </p>
+        <a class="button" href="#kontakt">Skontaktuj się</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--stats reveal">
+        <article>
+          <h2>62,5 m<sup>2</sup></h2>
+          <p>realnej przestrzeni użytkowej</p>
+        </article>
+        <article>
+          <h2>18,5 m<sup>2</sup></h2>
+          <p>dużej, wentylowanej piwnicy</p>
+        </article>
+        <article>
+          <h2>2</h2>
+          <p>miejsca postojowe na terenie zamkniętym</p>
+        </article>
+        <article>
+          <h2>1 095 000 PLN</h2>
+          <p>cena nieruchomości</p>
+        </article>
+      </section>
+
+      <section class="section grid grid--2 reveal">
+        <div>
+          <h3>Dlaczego ta oferta?</h3>
+          <p>
+            To propozycja dla osób, które chcą mieszkać komfortowo, ale bez codziennego
+            marnowania czasu na dojazdy. Nieruchomość znajduje się w świetnym punkcie Torunia,
+            blisko szkół, sklepów i terenów rekreacyjnych.
+          </p>
+          <ul>
+            <li>Tylko 4 rodziny w budynku z cegły.</li>
+            <li>Pełne ogrzewanie podłogowe i duże przeszklenia.</li>
+            <li>Solidne wykończenie, w tym stolarka z litego drewna.</li>
+            <li>Zamknięty i monitorowany teren posesji.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Lokalizacja i codzienna wygoda</h3>
+          <ul>
+            <li>Szkoła w bezpiecznej odległości kilkudziesięciu sekund pieszo.</li>
+            <li>Ul. Bema, Arena Toruń i baseny UMK w zasięgu krótkiego spaceru.</li>
+            <li>Starówka dostępna pieszo w około 10-15 minut.</li>
+            <li>Szybki dojazd i wygodne zakupy po drodze z pracy.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h3>Przestrzeń dodatkowa, która realnie zwiększa komfort</h3>
+        <p>
+          Piwnica o powierzchni 18,5 m2 została przygotowana jako suche i funkcjonalne
+          pomieszczenie. Obecnie pełni rolę prywatnej siłowni, spiżarni i magazynu.
+          To praktyczna przewaga nad standardowymi komórkami lokatorskimi.
+        </p>
+      </section>
+
+      <section class="section reveal">
+        <h3>Galeria</h3>
+        <div class="gallery">
+          <figure class="tile">
+            <img src="assets/IMG_20260411_173834.jpg" alt="Dodatkowe ujęcie nieruchomości" loading="lazy" />
+            <figcaption>Dodatkowe ujęcie nieruchomości</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260411_180208.jpg" alt="Dodatkowe ujęcie wnętrza" loading="lazy" />
+            <figcaption>Dodatkowe ujęcie wnętrza</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260411_180438.jpg" alt="Dodatkowe ujęcie części mieszkalnej" loading="lazy" />
+            <figcaption>Dodatkowe ujęcie części mieszkalnej</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_192133.jpg" alt="Duża, uporządkowana część gospodarcza" loading="lazy" />
+            <figcaption>Przestronna część magazynowa</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_192243.jpg" alt="Drzwi i dodatkowe miejsce do przechowywania" loading="lazy" />
+            <figcaption>Dodatkowa strefa przechowywania</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_192433.jpg" alt="Strefa fitness w części piwnicznej" loading="lazy" />
+            <figcaption>Prywatna strefa fitness</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_192528.jpg" alt="Strefa fitness i magazyn" loading="lazy" />
+            <figcaption>Funkcjonalny układ pomieszczeń</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_193250.jpg" alt="Szerokie przejście i regały do przechowywania" loading="lazy" />
+            <figcaption>Wygodne przejście i regały</figcaption>
+          </figure>
+          <figure class="tile">
+            <img src="assets/IMG_20260831_191742.jpg" alt="Drzwi 5-tej klasy zabezpieczeń" loading="lazy" />
+            <figcaption>Drzwi 5-tej klasy zabezpieczeń</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section section--note reveal">
+        <h3>Informacja organizacyjna</h3>
+        <p>
+          Nieruchomość jest obecnie zamieszkana. Termin przekazania kluczy może zostać
+          elastycznie ustalony w akcie notarialnym, co ułatwia spokojne przeprowadzenie
+          całej transakcji.
+        </p>
+      </section>
+
+      <section class="section reveal" id="mapa">
+        <h3>Lokalizacja posesji - Geoportal Krajowy</h3>
+        <p>
+          Adres posesji: Torun, ul. Bema 66A. Mapa osadzona bezposrednio z Geoportalu,
+          ustawiona na lokalizacje nieruchomosci.
+        </p>
+        <div class="map-filters" aria-label="Filtry mapy">
+          <button class="map-filter-btn is-active" type="button" data-map-category="school" aria-pressed="true">Szkoły</button>
+          <button class="map-filter-btn is-active" type="button" data-map-category="shop" aria-pressed="true">Sklepy</button>
+          <button class="map-filter-btn is-active" type="button" data-map-category="restaurants" aria-pressed="true">Gastronomia</button>
+          <button class="map-filter-btn is-active" type="button" data-map-category="sports" aria-pressed="true">Obiekty sportowe</button>
+          <button class="map-filter-btn is-active" type="button" data-map-category="green" aria-pressed="true">Zieleń</button>
+          <button class="map-filter-btn" type="button" data-map-category="bus" aria-pressed="false">Przystanki MZK</button>
+          <button class="map-filter-btn is-active" type="button" data-map-category="places" aria-pressed="true">Dodatkowe miejsca</button>
+        </div>
+        <div class="map-wrap map-wrap--static" aria-label="Mapa lokalizacji posesji">
+          <div id="geo-map" aria-label="Mapa lotnicza Geoportalu"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer reveal" id="kontakt">
+      <h3>Kontakt</h3>
+      <p>Zapraszamy do kontaktu w sprawie szczegółów oferty i umówienia prezentacji.</p>
+      <div class="contact-box">
+        <p><strong>Telefon:</strong> <a href="tel:+48508906660">508 906 660</a></p>
+        <p><strong>E-mail:</strong> <a href="mailto:kefas-gdynia@wp.pl">kefas-gdynia@wp.pl</a></p>
+      </div>
+    </footer>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>

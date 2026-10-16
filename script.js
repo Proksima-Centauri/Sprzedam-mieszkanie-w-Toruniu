@@ -21,15 +21,58 @@ if ('IntersectionObserver' in window) {
   revealElements.forEach((element) => element.classList.add('is-visible'));
 }
 
+const contactForm = document.querySelector('#contact-form');
+
+if (contactForm) {
+  const contactFormStatus = document.querySelector('#contact-form-status');
+
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const name = formData.get('name').toString().trim();
+    const email = formData.get('email').toString().trim();
+    const phone = formData.get('phone').toString().trim() || 'nie podano';
+    const message = formData.get('message').toString().trim();
+    const subject = `Zapytanie o ofertę — ${name}`;
+    const body = [
+      `Imię i nazwisko: ${name}`,
+      `Adres e-mail: ${email}`,
+      `Telefon: ${phone}`,
+      '',
+      'Wiadomość:',
+      message,
+    ].join('\n');
+
+    window.location.href = `mailto:kefas-gdynia@wp.pl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (contactFormStatus) {
+      contactFormStatus.textContent = 'Wiadomość przygotowana. Dokończ i wyślij ją w swoim programie pocztowym.';
+    }
+  });
+}
+
 const gallery = document.querySelector('.gallery');
 const lightbox = document.querySelector('.lightbox');
 
 if (gallery && lightbox) {
   const lightboxImage = lightbox.querySelector('.lightbox__image');
-  const lightboxCaption = lightbox.querySelector('.lightbox__caption');
   const closeButton = lightbox.querySelector('.lightbox__close');
+  const previousButton = lightbox.querySelector('.lightbox__nav--previous');
+  const nextButton = lightbox.querySelector('.lightbox__nav--next');
+  const galleryImages = Array.from(gallery.querySelectorAll('.tile img'));
+  let currentImageIndex = 0;
 
-  gallery.querySelectorAll('.tile img').forEach((image) => {
+  const showGalleryImage = (index) => {
+    if (galleryImages.length === 0) {
+      return;
+    }
+
+    currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+    const image = galleryImages[currentImageIndex];
+    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.alt = image.alt;
+  };
+
+  galleryImages.forEach((image, index) => {
     image.draggable = false;
     const button = document.createElement('button');
     button.type = 'button';
@@ -40,14 +83,25 @@ if (gallery && lightbox) {
     button.append(image);
 
     button.addEventListener('click', () => {
-      lightboxImage.src = image.currentSrc || image.src;
-      lightboxImage.alt = image.alt;
-      lightboxCaption.textContent = image.closest('.tile').querySelector('figcaption')?.textContent || image.alt;
+      showGalleryImage(index);
       lightbox.showModal();
     });
   });
 
+  previousButton.addEventListener('click', () => showGalleryImage(currentImageIndex - 1));
+  nextButton.addEventListener('click', () => showGalleryImage(currentImageIndex + 1));
+
   closeButton.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      showGalleryImage(currentImageIndex - 1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      showGalleryImage(currentImageIndex + 1);
+    }
+  });
+
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) {
       lightbox.close();

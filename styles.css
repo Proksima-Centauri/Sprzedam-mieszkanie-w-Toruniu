@@ -296,10 +296,41 @@ ul {
   margin: 0 auto;
 }
 
-.lightbox__caption {
-  margin: 0.8rem 0 0;
-  text-align: center;
-  color: #e6e0d8;
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(23, 25, 27, 0.72);
+  color: #fff;
+  font: inherit;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox__nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox__nav:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.lightbox__nav--previous {
+  left: 1rem;
+}
+
+.lightbox__nav--next {
+  right: 1rem;
 }
 
 .lightbox__close {
@@ -320,12 +351,6 @@ ul {
 
 .lightbox__close:hover {
   background: rgba(255, 255, 255, 0.22);
-}
-
-.tile figcaption {
-  padding: 0.6rem 0.8rem;
-  color: var(--muted);
-  font-size: 0.92rem;
 }
 
 .section--note {
@@ -588,6 +613,70 @@ ul {
   padding-top: 0.7rem;
 }
 
+.contact-form {
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact-form h4 {
+  margin: 0 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+.contact-form > p {
+  margin: 0 0 1rem;
+}
+
+.contact-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.contact-form__grid label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+.contact-form__message {
+  grid-column: 1 / -1;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form__submit {
+  margin-top: 1rem;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.contact-form__submit:focus-visible,
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+  outline: 3px solid var(--brand-dark);
+  outline-offset: 2px;
+}
+
+.contact-form__status:empty {
+  display: none;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(26px);
@@ -642,6 +731,14 @@ ul {
   .section--stats,
   .gallery {
     grid-template-columns: 1fr;
+  }
+
+  .contact-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form__message {
+    grid-column: auto;
   }
 }
 

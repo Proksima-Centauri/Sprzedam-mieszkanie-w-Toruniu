@@ -21,6 +21,40 @@ if ('IntersectionObserver' in window) {
   revealElements.forEach((element) => element.classList.add('is-visible'));
 }
 
+const gallery = document.querySelector('.gallery');
+const lightbox = document.querySelector('.lightbox');
+
+if (gallery && lightbox) {
+  const lightboxImage = lightbox.querySelector('.lightbox__image');
+  const lightboxCaption = lightbox.querySelector('.lightbox__caption');
+  const closeButton = lightbox.querySelector('.lightbox__close');
+
+  gallery.querySelectorAll('.tile img').forEach((image) => {
+    image.draggable = false;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'gallery__zoom';
+    button.setAttribute('aria-label', `Powiększ zdjęcie: ${image.alt}`);
+    button.draggable = false;
+    image.parentNode.insertBefore(button, image);
+    button.append(image);
+
+    button.addEventListener('click', () => {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.textContent = image.closest('.tile').querySelector('figcaption')?.textContent || image.alt;
+      lightbox.showModal();
+    });
+  });
+
+  closeButton.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) {
+      lightbox.close();
+    }
+  });
+}
+
 const mapElement = document.querySelector('#geo-map');
 
 if (mapElement && window.L) {

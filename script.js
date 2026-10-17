@@ -54,12 +54,76 @@ const gallery = document.querySelector('.gallery');
 const lightbox = document.querySelector('.lightbox');
 
 if (gallery && lightbox) {
+  const imageViewport = lightbox.querySelector('.lightbox__viewport');
   const lightboxImage = lightbox.querySelector('.lightbox__image');
   const closeButton = lightbox.querySelector('.lightbox__close');
   const previousButton = lightbox.querySelector('.lightbox__nav--previous');
   const nextButton = lightbox.querySelector('.lightbox__nav--next');
   const galleryImages = Array.from(gallery.querySelectorAll('.tile img'));
   let currentImageIndex = 0;
+  let fittedImageWidth = 0;
+  let fittedImageHeight = 0;
+  let zoomScale = 1;
+  const activePointers = new Map();
+  let pinchStart = null;
+  let panStart = null;
+
+  const fitLightboxImage = () => {
+    if (!lightboxImage.naturalWidth || !lightboxImage.naturalHeight || !imageViewport.clientWidth || !imageViewport.clientHeight) {
+      return;
+    }
+
+    const scale = Math.min(
+      imageViewport.clientWidth / lightboxImage.naturalWidth,
+      imageViewport.clientHeight / lightboxImage.naturalHeight
+    );
+    fittedImageWidth = lightboxImage.naturalWidth * scale;
+    fittedImageHeight = lightboxImage.naturalHeight * scale;
+    zoomScale = 1;
+    lightboxImage.style.maxWidth = 'none';
+    lightboxImage.style.maxHeight = 'none';
+    lightboxImage.style.width = `${fittedImageWidth}px`;
+    lightboxImage.style.height = `${fittedImageHeight}px`;
+    imageViewport.scrollLeft = 0;
+    imageViewport.scrollTop = 0;
+    imageViewport.classList.remove('is-zoomed');
+  };
+
+  const setZoomScale = (scale, focalPoint = null) => {
+    zoomScale = Math.min(4, Math.max(1, scale));
+    const width = fittedImageWidth * zoomScale;
+    const height = fittedImageHeight * zoomScale;
+    lightboxImage.style.width = `${width}px`;
+    lightboxImage.style.height = `${height}px`;
+    imageViewport.classList.toggle('is-zoomed', zoomScale > 1);
+
+    if (focalPoint && zoomScale > 1) {
+      imageViewport.scrollLeft = focalPoint.ratioX * width - focalPoint.x;
+      imageViewport.scrollTop = focalPoint.ratioY * height - focalPoint.y;
+    }
+  };
+
+  const getPointerDistance = (first, second) =>
+    Math.hypot(second.x - first.x, second.y - first.y);
+
+  const startPinch = () => {
+    const [first, second] = Array.from(activePointers.values());
+    const bounds = imageViewport.getBoundingClientRect();
+    const x = (first.x + second.x) / 2 - bounds.left;
+    const y = (first.y + second.y) / 2 - bounds.top;
+
+    pinchStart = {
+      distance: Math.max(1, getPointerDistance(first, second)),
+      scale: zoomScale,
+      x,
+      y,
+      ratioX: Math.min(1, Math.max(0, (imageViewport.scrollLeft + x - lightboxImage.offsetLeft) / lightboxImage.clientWidth)),
+      ratioY: Math.min(1, Math.max(0, (imageViewport.scrollTop + y - lightboxImage.offsetTop) / lightboxImage.clientHeight)),
+    };
+    panStart = null;
+  };
+
+  lightboxImage.addEventListener('load', fitLightboxImage);
 
   const showGalleryImage = (index) => {
     if (galleryImages.length === 0) {
@@ -70,6 +134,9 @@ if (gallery && lightbox) {
     const image = galleryImages[currentImageIndex];
     lightboxImage.src = image.currentSrc || image.src;
     lightboxImage.alt = image.alt;
+    if (lightboxImage.complete) {
+      fitLightboxImage();
+    }
   };
 
   galleryImages.forEach((image, index) => {
@@ -83,10 +150,71 @@ if (gallery && lightbox) {
     button.append(image);
 
     button.addEventListener('click', () => {
-      showGalleryImage(index);
       lightbox.showModal();
+      showGalleryImage(index);
     });
   });
+
+  imageViewport.addEventListener('pointerdown', (event) => {
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    imageViewport.setPointerCapture(event.pointerId);
+
+    if (activePointers.size === 2) {
+      startPinch();
+    } else if (activePointers.size === 1) {
+      panStart = {
+        x: event.clientX,
+        y: event.clientY,
+        scrollLeft: imageViewport.scrollLeft,
+        scrollTop: imageViewport.scrollTop,
+      };
+    }
+  });
+
+  imageViewport.addEventListener('pointermove', (event) => {
+    if (!activePointers.has(event.pointerId)) {
+      return;
+    }
+
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+    if (activePointers.size >= 2) {
+      const [first, second] = Array.from(activePointers.values());
+      if (!pinchStart) {
+        startPinch();
+      }
+
+      const scale = pinchStart.scale * getPointerDistance(first, second) / pinchStart.distance;
+      setZoomScale(scale, pinchStart);
+      event.preventDefault();
+    } else if (zoomScale > 1 && panStart) {
+      imageViewport.scrollLeft = panStart.scrollLeft - (event.clientX - panStart.x);
+      imageViewport.scrollTop = panStart.scrollTop - (event.clientY - panStart.y);
+      event.preventDefault();
+    }
+  });
+
+  const endPointerGesture = (event) => {
+    activePointers.delete(event.pointerId);
+    if (activePointers.size < 2) {
+      pinchStart = null;
+    }
+
+    if (activePointers.size === 1) {
+      const [remainingPointer] = activePointers.values();
+      panStart = {
+        x: remainingPointer.x,
+        y: remainingPointer.y,
+        scrollLeft: imageViewport.scrollLeft,
+        scrollTop: imageViewport.scrollTop,
+      };
+    } else {
+      panStart = null;
+    }
+  };
+
+  imageViewport.addEventListener('pointerup', endPointerGesture);
+  imageViewport.addEventListener('pointercancel', endPointerGesture);
 
   previousButton.addEventListener('click', () => showGalleryImage(currentImageIndex - 1));
   nextButton.addEventListener('click', () => showGalleryImage(currentImageIndex + 1));

@@ -56,6 +56,7 @@ const lightbox = document.querySelector('.lightbox');
 if (gallery && lightbox) {
   const imageViewport = lightbox.querySelector('.lightbox__viewport');
   const lightboxImage = lightbox.querySelector('.lightbox__image');
+  const lightboxCounter = lightbox.querySelector('.lightbox__counter');
   const closeButton = lightbox.querySelector('.lightbox__close');
   const previousButton = lightbox.querySelector('.lightbox__nav--previous');
   const nextButton = lightbox.querySelector('.lightbox__nav--next');
@@ -134,6 +135,7 @@ if (gallery && lightbox) {
     const image = galleryImages[currentImageIndex];
     lightboxImage.src = image.currentSrc || image.src;
     lightboxImage.alt = image.alt;
+    lightboxCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
     if (lightboxImage.complete) {
       fitLightboxImage();
     }

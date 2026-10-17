@@ -306,6 +306,29 @@ ul {
   cursor: grabbing;
 }
 
+.lightbox__counter {
+  position: absolute;
+  bottom: 0.55rem;
+  left: 50%;
+  z-index: 2;
+  min-width: 3.5rem;
+  margin: 0;
+  padding: 0.25rem 0.65rem;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(23, 25, 27, 0.82);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  pointer-events: none;
+}
+
+.lightbox__counter:empty {
+  display: none;
+}
+
 .lightbox__image {
   display: block;
   flex: 0 0 auto;
